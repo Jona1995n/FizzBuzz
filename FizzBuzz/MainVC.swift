@@ -24,6 +24,8 @@ class MainVC: UIViewController, UITextFieldDelegate {
         configureUI()
         tableView.isHidden = true
         mainHeader.prefixedButton.addTarget(self, action: #selector(addNumbers), for: .touchUpInside)
+        mainHeader.clearButton.addTarget(self, action: #selector(clearView), for: .touchUpInside)
+        mainHeader.searchButton.addTarget(self, action: #selector(search), for: .touchUpInside)
     }
 
     func configureUI() {
@@ -43,11 +45,32 @@ class MainVC: UIViewController, UITextFieldDelegate {
         mainHeader.textField.delegate = self
     }
     
+    @objc func search() {
+        didSearchFizzBuzz()
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+            self.tableView.isHidden = false
+        }
+        
+    }
+    
     @objc func addNumbers() {
         for num in 1...100 {
-            let number = "\(num),"
-            mainHeader.textField.text?.append(number)
+            var number = ""
+            if num == 100 {
+                number = "\(num)"
+            } else {
+                number = "\(num),"
+            }
             
+            mainHeader.textField.text?.append(number)
+        }
+    }
+    
+    @objc func clearView() {
+        DispatchQueue.main.async {
+            self.mainHeader.textField.text = ""
+            self.tableView.isHidden = true
         }
     }
     

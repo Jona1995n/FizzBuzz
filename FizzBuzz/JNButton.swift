@@ -22,6 +22,6 @@ class JNButton: UIButton {
         setTitle("0...100", for: .normal)
         setTitleColor( .darkGray , for: .normal)
         backgroundColor       = .init(white: 1.0, alpha: 0.8)
-        layer.cornerRadius    = frame.size.height/2
+        layer.cornerRadius    = frame.size.height/2.5
     }
 }
