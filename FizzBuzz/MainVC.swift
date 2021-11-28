@@ -23,6 +23,7 @@ class MainVC: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         configureUI()
         tableView.isHidden = true
+        dismissKeyboardTapGesture()
         mainHeader.prefixedButton.addTarget(self, action: #selector(addNumbers), for: .touchUpInside)
         mainHeader.clearButton.addTarget(self, action: #selector(clearView), for: .touchUpInside)
         mainHeader.searchButton.addTarget(self, action: #selector(search), for: .touchUpInside)
@@ -50,8 +51,8 @@ class MainVC: UIViewController, UITextFieldDelegate {
         DispatchQueue.main.async {
             self.tableView.reloadData()
             self.tableView.isHidden = false
+            self.mainHeader.textField.resignFirstResponder()
         }
-        
     }
     
     @objc func addNumbers() {
@@ -72,6 +73,11 @@ class MainVC: UIViewController, UITextFieldDelegate {
             self.mainHeader.textField.text = ""
             self.tableView.isHidden = true
         }
+    }
+    
+    func dismissKeyboardTapGesture() {
+        let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing))
+        view.addGestureRecognizer(tap)
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
